@@ -4,17 +4,18 @@ object HomeWork3 {
     println(findMinNegativeMaxPositive(Seq(1, -1, 100, -200)))
   }
 
-  def countSignChange(seq: Seq[Int]): Int =
-    seq match {
+  def countSignChange(seq: Seq[Int]): Int = {
+    val filteredSeq: Seq[Int] = seq.filter(number => number != 0)
+    filteredSeq match {
       case Nil => 0
       case head :: Nil => 0
       case head :: tail =>
         ((if(Seq(head, tail.head).map(number => number.signum).distinct.size == 2) 1
         else 0)
-        + countSignChange(tail))
+          + countSignChange(tail))
     }
+  }
 
-  //todo:
   def findMinNegativeMaxPositive(seq: Seq[Int]): (Option[Int], Option[Int]) = {
     val negatives = seq.filter(number => number < 0)
     val positives = seq.filter(number => number > 0)
