@@ -40,9 +40,7 @@ object HomeWork3Part4 {
     val columnIndex: Int = data.header.items.map(_.data).indexOf(columnName)
     val rows: Seq[Row] = data.rows
     if (columnIndex == -1 || rows.isEmpty) Seq.empty
-    else {
-      rows.filter(_.items(columnIndex).data == value)
-    }
+    else rows.filter(_.items(columnIndex).data == value)
   }
 
   trait Column {
