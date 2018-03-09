@@ -11,8 +11,8 @@ object HomeWork3Part2 {
   }
 
   def findMinNegativeMaxPositive(seq: Seq[Int]): (Option[Int], Option[Int]) = {
-    val negatives: Seq[Int] = seq.filter(number => number < 0)
-    val positives: Seq[Int] = seq.filter(number => number > 0)
+    val negatives: Seq[Int] = seq.filter(_ < 0)
+    val positives: Seq[Int] = seq.filter(_ > 0)
     val tuple: (Option[Int], Option[Int]) =
       (if(negatives.isEmpty) None else Some(negatives.min),
         if(positives.isEmpty) None else Some(positives.max))

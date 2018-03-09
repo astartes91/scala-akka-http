@@ -9,12 +9,12 @@ object HomeWork3Part1 {
   }
 
   def countSignChangeWithZeroPreRemoving(seq: Seq[Int]): Int = {
-    val filteredSeq: Seq[Int] = seq.filter(number => number != 0)
+    val filteredSeq: Seq[Int] = seq.filter(_ != 0)
     filteredSeq match {
       case Nil => 0
       case head :: Nil => 0
       case head :: tail =>
-        val product: Int = Seq(head, tail.head).map(number => number.signum).product
+        val product: Int = Seq(head, tail.head).map(_.signum).product
         val isElementsDistinct: Boolean = product == -1
         val number: Int = if(isElementsDistinct) 1 else 0
         number  + countSignChangeWithZeroPreRemoving(tail)
@@ -31,7 +31,7 @@ object HomeWork3Part1 {
           val tailHead: Int = tail.head
           if (tailHead == 0) countSignChange(Seq(head) ++ tail.tail)
           else {
-            val product: Int = Seq(head, tailHead).map(number => number.signum).product
+            val product: Int = Seq(head, tailHead).map(_.signum).product
             val isElementsDistinct: Boolean = product == -1
             val number: Int = if (isElementsDistinct) 1 else 0
             number  + countSignChange(tail)
