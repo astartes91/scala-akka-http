@@ -22,6 +22,7 @@ object HomeWork3Part3 {
       (funcRight, funcLeft) =>
       {
         number => funcLeft(funcRight(number).getOrElse(number))
+        //number => funcRight.andThen(funcRightResult => funcLeft(funcRightResult.getOrElse(number))).apply(number)
       }
     )
       .apply(i)
