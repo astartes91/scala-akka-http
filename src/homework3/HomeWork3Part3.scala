@@ -21,8 +21,8 @@ object HomeWork3Part3 {
     else transformations.reduceRight(
       (funcLeft, funcRight) =>
       {
-        //number => funcRight(funcLeft(number).getOrElse(number))
-        number => funcLeft.andThen(funcLeftResult => funcRight(funcLeftResult.getOrElse(number))).apply(number)
+        number => funcRight(funcLeft(number).getOrElse(number))
+        //number => funcLeft.andThen(funcLeftResult => funcRight(funcLeftResult.getOrElse(number))).apply(number)
       }
     )
       .apply(i)
