@@ -15,7 +15,9 @@ object HomeWork3Part4 {
       "3|3|3",
       "4|4|4"
     ))
+
     println(csv)
+    println(find(csv, "A", "2"))
   }
 
   def parseCsv(content: Seq[String]): CsvData = {
@@ -32,6 +34,15 @@ object HomeWork3Part4 {
       }
     }
     CsvData(Header(headerColumns), rows)
+  }
+
+  def find(data: CsvData, columnName: String, value: String): Seq[Row] = {
+    val columnIndex: Int = data.header.items.map(_.data).indexOf(columnName)
+    val rows: Seq[Row] = data.rows
+    if (columnIndex == -1 || rows.isEmpty) Seq.empty
+    else {
+      rows.filter(_.items(columnIndex).data == value)
+    }
   }
 
   trait Column {
