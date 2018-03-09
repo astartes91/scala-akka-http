@@ -19,10 +19,10 @@ object HomeWork3Part3 {
   def applyTransformationsByReducing(i: Int, transformations: Seq[(Int) => Option[Int]]): Int = {
     if(transformations.isEmpty) i
     else transformations.reduceRight(
-      (funcRight, funcLeft) =>
+      (funcLeft, funcRight) =>
       {
-        number => funcLeft(funcRight(number).getOrElse(number))
-        //number => funcRight.andThen(funcRightResult => funcLeft(funcRightResult.getOrElse(number))).apply(number)
+        //number => funcRight(funcLeft(number).getOrElse(number))
+        number => funcLeft.andThen(funcLeftResult => funcRight(funcLeftResult.getOrElse(number))).apply(number)
       }
     )
       .apply(i)
