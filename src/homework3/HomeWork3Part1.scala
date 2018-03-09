@@ -9,7 +9,7 @@ object HomeWork3Part1 {
   }
 
   def countSignChangeWithZeroPreRemoving(seq: Seq[Int]): Int = {
-    val filteredSeq: Seq[Int] = seq.filter(_ != 0)
+    val filteredSeq: Seq[Int] = seq.filterNot(_ == 0)
     filteredSeq match {
       case Nil => 0
       case head :: Nil => 0
