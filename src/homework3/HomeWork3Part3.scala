@@ -21,7 +21,7 @@ object HomeWork3Part3 {
     else transformations.reduceRight(
       (funcRight, funcLeft) =>
       {
-        number => funcLeft.apply(funcRight.apply(number).getOrElse(number))
+        number => funcLeft(funcRight(number).getOrElse(number))
       }
     )
       .apply(i)
@@ -31,7 +31,7 @@ object HomeWork3Part3 {
   def applyTransformationsByPatternMatching(i: Int, transformations: Seq[(Int) => Option[Int]]): Int =
     transformations match {
       case Nil => i
-      case head :: tail => applyTransformationsByPatternMatching(head.apply(i).getOrElse(i), tail)
+      case head :: tail => applyTransformationsByPatternMatching(head(i).getOrElse(i), tail)
     }
 
   def div2IfNotOdd(i: Int): Option[Int] = if(i % 2 > 0) None else Some(i / 2)
