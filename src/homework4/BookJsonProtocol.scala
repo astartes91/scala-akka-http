@@ -9,15 +9,14 @@ object BookJsonProtocol extends JsonProtocol {
   }
 
   implicit def bookSerializer[S : JsonSerializer, O : JsonSerializer](
-    implicit os: JsonSerializer[Option[O]],
-    ss: JsonSerializer[Seq[S]]
+    implicit os: JsonSerializer[Option[O]], ss: JsonSerializer[Seq[S]]
    ): JsonSerializer[Book] =
     new JsonSerializer[Book] {
-      override def serialize(value: Book): JsValue = serializeAnyValue(value, ss, os)
+      override def serialize(value: Book): JsValue = serializeAnyValue(value)/*(ss, os)*/
     }
 
-  private def serializeAnyValue[S : JsonSerializer, O : JsonSerializer](
-    value: Any, ss: JsonSerializer[Seq[S]], os: JsonSerializer[Option[O]]
+  private def serializeAnyValue[S/* : JsonSerializer*/, O/* : JsonSerializer*/](
+    value: Any)(implicit ss: JsonSerializer[Seq[S]], os: JsonSerializer[Option[O]]
   ): JsValue =
      value match {
       case s: String => stringSerializer.serialize(s)
@@ -41,7 +40,7 @@ object BookJsonProtocol extends JsonProtocol {
           .map(
             symbol => {
               val fieldValue: Any = instanceMirror.reflectField(symbol).get
-              val jsValue: JsValue = serializeAnyValue(fieldValue, ss, os)
+              val jsValue: JsValue = serializeAnyValue(fieldValue)
               (symbol.name.toTermName.toString.trim, jsValue)
             }
           )
