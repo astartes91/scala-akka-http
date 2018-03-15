@@ -11,7 +11,7 @@ object BookJsonProtocol extends JsonProtocol {
   implicit def bookSerializer[T : JsonSerializer](implicit ev: JsonSerializer[Seq[T]]): JsonSerializer[Book] =
     (value: Book) => serializeAnyValue(value)(ev)
 
-  private def serializeAnyValue[T: JsonSerializer](value: Any)(ev: JsonSerializer[Seq[T]]): JsValue = {
+  private def serializeAnyValue[T: JsonSerializer](value: Any)(ev: JsonSerializer[Seq[T]]): JsValue =
      value match {
       case s: String => JsString(s)
       case i: Integer => JsNumber(i.toDouble)
@@ -43,5 +43,4 @@ object BookJsonProtocol extends JsonProtocol {
       }
       case _ => JsNull
     }
-  }
 }
