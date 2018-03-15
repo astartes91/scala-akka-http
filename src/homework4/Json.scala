@@ -7,9 +7,11 @@ object Json {
     case JsNumber(x) => x.toString
     case JsTrue => "true"
     case JsFalse => "false"
-    case JsString(x) => x
-    case JsObject(x) => x.toString
-    case JsArray(x) => x.toString
+    case JsString(x) => "\"" + x + "\""
+    case JsObject(x) => {
+      "{" + x.map((entry) => "\"" + entry._1 + "\"" +":" + stringify(entry._2)).reduce((str, str1) => str + "," + str1) + "}"
+    }
+    case JsArray(x) => "[" + x.map(stringify).reduce((str, str1) => str + "," + str1) + "]"
   }
 
   def serialize[T : JsonSerializer](value: T)(implicit serializer: JsonSerializer[T]): JsValue =

@@ -18,7 +18,7 @@ object BookJsonProtocol extends JsonProtocol {
       case l: Long => JsNumber(l.toDouble)
       case b: Boolean => JsBoolean(b)
       case seq: Seq[T] => ev.serialize(seq)
-      case o: Option[T] => serializeAnyValue(o.getOrElse(Nil))(ev)
+      case o: Option[T] => serializeAnyValue(o.orNull)(ev)
       case obj: Object => {
         val mirror: Mirror = scala.reflect.runtime.currentMirror
         val instanceMirror: InstanceMirror = mirror.reflect(obj)
@@ -35,7 +35,7 @@ object BookJsonProtocol extends JsonProtocol {
             symbol => {
               val fieldValue: Any = instanceMirror.reflectField(symbol).get
               val jsValue: JsValue = serializeAnyValue(fieldValue)(ev)
-              (symbol.fullName, jsValue)
+              (symbol.name.toTermName.toString.trim, jsValue)
             }
           )
           .toMap
