@@ -8,14 +8,16 @@ object BookJsonProtocol extends JsonProtocol {
     override def serialize(value: Genre): JsValue = JsString(value.value)
   }
 
-  implicit def bookSerializer[S : JsonSerializer, O : JsonSerializer](
+  implicit def bookSerializer[S, O](
     implicit os: JsonSerializer[Option[O]], ss: JsonSerializer[Seq[S]]
    ): JsonSerializer[Book] =
     new JsonSerializer[Book] {
-      override def serialize(value: Book): JsValue = serializeAnyValue(value)/*(ss, os)*/
+      override def serialize(value: Book): JsValue = {
+        serializeAnyValue(value)/*(ss, os)*/
+      }
     }
 
-  private def serializeAnyValue[S/* : JsonSerializer*/, O/* : JsonSerializer*/](
+  private def serializeAnyValue[S, O](
     value: Any)(implicit ss: JsonSerializer[Seq[S]], os: JsonSerializer[Option[O]]
   ): JsValue =
      value match {
