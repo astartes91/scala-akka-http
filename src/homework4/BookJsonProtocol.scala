@@ -8,17 +8,24 @@ object BookJsonProtocol extends JsonProtocol {
     override def serialize(value: Genre): JsValue = JsString(value.value)
   }
 
-  implicit def bookSerializer[T : JsonSerializer](implicit ev: JsonSerializer[Seq[T]]): JsonSerializer[Book] =
-    (value: Book) => serializeAnyValue(value)(ev)
+  implicit def bookSerializer[S : JsonSerializer, O : JsonSerializer](
+    implicit os: JsonSerializer[Option[O]],
+    ss: JsonSerializer[Seq[S]]
+   ): JsonSerializer[Book] =
+    new JsonSerializer[Book] {
+      override def serialize(value: Book): JsValue = serializeAnyValue(value, ss, os)
+    }
 
-  private def serializeAnyValue[T: JsonSerializer](value: Any)(ev: JsonSerializer[Seq[T]])(implicit os: JsonSerializer[Option[T]]): JsValue =
+  private def serializeAnyValue[S : JsonSerializer, O : JsonSerializer](
+    value: Any, ss: JsonSerializer[Seq[S]], os: JsonSerializer[Option[O]]
+  ): JsValue =
      value match {
       case s: String => stringSerializer.serialize(s)
       case i: Integer => intSerializer.serialize(i)
       case l: Long => longSerializer.serialize(l)
       case b: Boolean => booleanSerializer.serialize(b)
-      case seq: Seq[T] => ev.serialize(seq)
-      case o: Option[T] => os.serialize(o)
+      case seq: Seq[S] => ss.serialize(seq)
+      case o: Option[O] => os.serialize(o)
       case obj: Object => {
         val mirror: Mirror = scala.reflect.runtime.currentMirror
         val instanceMirror: InstanceMirror = mirror.reflect(obj)
@@ -34,7 +41,7 @@ object BookJsonProtocol extends JsonProtocol {
           .map(
             symbol => {
               val fieldValue: Any = instanceMirror.reflectField(symbol).get
-              val jsValue: JsValue = serializeAnyValue(fieldValue)(ev)
+              val jsValue: JsValue = serializeAnyValue(fieldValue, ss, os)
               (symbol.name.toTermName.toString.trim, jsValue)
             }
           )
