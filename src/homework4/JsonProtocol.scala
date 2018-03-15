@@ -23,9 +23,10 @@ trait JsonProtocol {
     def serialize(value: Boolean): JsValue = JsBoolean(value)
   }
 
-  implicit def optionSerializer[O](implicit ev: JsonSerializer[O]): JsonSerializer[Option[O]] =
+  implicit def optionSerializer[O : JsonSerializer](): JsonSerializer[Option[O]] =
     new JsonSerializer[Option[O]] {
-      override def serialize(value: Option[O]): JsValue = if(value.isDefined) ev.serialize(value.get) else JsNull
+      override def serialize(value: Option[O]): JsValue =
+        if(value.isDefined) implicitly[JsonSerializer[O]].serialize(value.get) else JsNull
   }
 
   implicit def seqSerializer[T : JsonSerializer](implicit ev: JsonSerializer[T]) =
