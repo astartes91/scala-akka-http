@@ -1,6 +1,7 @@
 package homework4
 
 object Json {
+
   def stringify[T <: JsValue](value: T): String = value match {
     case JsNull => "null"
     case JsNumber(x) => x.toString

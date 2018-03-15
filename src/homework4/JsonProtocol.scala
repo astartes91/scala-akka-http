@@ -1,10 +1,12 @@
 package homework4
 
 trait JsonSerializer[T] {
+
   def serialize(value: T): JsValue
 }
 
 trait JsonProtocol {
+
   implicit val stringSerializer = new JsonSerializer[String] {
     def serialize(value: String): JsValue = JsString(value)
   }
