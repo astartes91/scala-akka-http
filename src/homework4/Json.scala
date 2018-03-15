@@ -11,7 +11,7 @@ object Json {
     case JsObject(x) => {
       "{" + x.map((entry) => "\"" + entry._1 + "\"" +":" + stringify(entry._2)).reduce((str, str1) => str + "," + str1) + "}"
     }
-    case JsArray(x) => "[" + x.map(stringify).reduce((str, str1) => str + "," + str1) + "]"
+    case JsArray(x) => "[" + (if(x.nonEmpty) x.map(stringify).reduce((str, str1) => str + "," + str1) else "") + "]"
   }
 
   def serialize[T : JsonSerializer](value: T)(implicit serializer: JsonSerializer[T]): JsValue =
