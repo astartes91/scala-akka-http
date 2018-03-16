@@ -1,5 +1,7 @@
 package homework4
 
+import homework4.BookJsonProtocol._
+
 object Main {
 
   def main(args: Array[String]) {
@@ -10,8 +12,8 @@ object Main {
       pages = 10000,
       bestseller = Some(1970))
 
-    implicit val jstSerializer: JsonSerializer[Int] = BookJsonProtocol.intSerializer
-    implicit val genreSerializer: JsonSerializer[Genre] = BookJsonProtocol.genreSerializer
+    //implicit val jstSerializer: JsonSerializer[Int] = BookJsonProtocol.intSerializer
+    //implicit val genreSerializer: JsonSerializer[Genre] = BookJsonProtocol.genreSerializer
     implicit val ss: JsonSerializer[Seq[Genre]] = BookJsonProtocol.seqSerializer
     implicit val os: JsonSerializer[Option[Int]] = BookJsonProtocol.optionSerializer[Int]
     implicit val bookSerializer: JsonSerializer[Book] = BookJsonProtocol.bookSerializer
