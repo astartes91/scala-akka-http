@@ -8,13 +8,13 @@ object BookJsonProtocol extends JsonProtocol {
     override def serialize(value: Genre): JsValue = JsString(value.value)
   }
 
-  implicit def bookSerializer[S](implicit os: JsonSerializer[Option[Int]], ss: JsonSerializer[Seq[S]]):
+  implicit def bookSerializer[S, T](implicit os: JsonSerializer[Option[T]], ss: JsonSerializer[Seq[S]]):
   JsonSerializer[Book] =
     new JsonSerializer[Book] {
       override def serialize(value: Book): JsValue = serializeAnyValue(value)
     }
 
-  private def serializeAnyValue[S](value: Any)(implicit ss: JsonSerializer[Seq[S]], os: JsonSerializer[Option[Int]])
+  private def serializeAnyValue[S, T](value: Any)(implicit ss: JsonSerializer[Seq[S]], os: JsonSerializer[Option[T]])
   : JsValue =
      value match {
       case s: String => stringSerializer.serialize(s)
@@ -22,7 +22,7 @@ object BookJsonProtocol extends JsonProtocol {
       case l: Long => longSerializer.serialize(l)
       case b: Boolean => booleanSerializer.serialize(b)
       case seq: Seq[S] => ss.serialize(seq)
-      case o: Option[Int] => os.serialize(o)
+      case o: Option[T] => os.serialize(o)
       case obj: Object => {
         val mirror: Mirror = scala.reflect.runtime.currentMirror
         val instanceMirror: InstanceMirror = mirror.reflect(obj)
