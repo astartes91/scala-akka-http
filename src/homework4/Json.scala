@@ -11,11 +11,11 @@ object Json {
       case JsString(x) => s""""$x""""
       case JsObject(x) => {
         val result: String = x.map((entry) => s""""${entry._1}":${stringify(entry._2)}""")
-          .reduce((str, str1) => s"$str,$str1")
+          .reduceOption((str, str1) => s"$str,$str1").getOrElse("")
         s"{$result}"
       }
       case JsArray(x) => {
-        val res: String = if (x.nonEmpty) x.map(stringify).reduce((str, str1) => s"$str,$str1") else ""
+        val res: String = x.map(stringify).reduceOption((str, str1) => s"$str,$str1").getOrElse("")
         s"[$res]"
       }
     }
