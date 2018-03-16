@@ -1,5 +1,8 @@
 package homework4
 
+import scala.annotation.implicitNotFound
+
+@implicitNotFound("No member of type class JsonSerializer in scope for ${T}")
 trait JsonSerializer[T] {
 
   def serialize(value: T): JsValue
