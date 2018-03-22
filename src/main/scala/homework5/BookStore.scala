@@ -1,9 +1,8 @@
 package homework5
 
-import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes, Uri}
+import akka.http.scaladsl.model.{ContentTypes, HttpEntity, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import io.netty.handler.codec.http.HttpStatusClass
 
 object BookStore {
 
@@ -17,5 +16,5 @@ object BookStore {
     get {
       redirect("bookstore", StatusCodes.PermanentRedirect)
     }
-  }
+  } ~ bookstoreRoute
 }

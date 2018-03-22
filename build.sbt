@@ -16,9 +16,9 @@ libraryDependencies ++= Seq(
   , "ch.qos.logback" % "logback-classic" % "1.1.3"
 
   // db
-  , "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
-  , "io.ratpack" % "ratpack-hikari" % "0.9.18"
-  ,  "org.xerial" % "sqlite-jdbc" % "3.20.1"
+  //, "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
+  //, "io.ratpack" % "ratpack-hikari" % "0.9.18"
+  //,  "org.xerial" % "sqlite-jdbc" % "3.20.1"
 
   // akka
   , "com.typesafe.akka" %% "akka-http" % "10.0.9"
