@@ -1,5 +1,7 @@
 package homework4
 
+import scala.reflect.runtime.universe._
+
 object BookJsonProtocol extends JsonProtocol {
 
   implicit val genreSerializer = new JsonSerializer[Genre] {
