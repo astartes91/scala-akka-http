@@ -10,7 +10,7 @@ object BookStore {
 
   private def bookstoreRoute: Route = path("bookstore"){
     get {
-      val fileContents = Source.fromResource("bookstore.html").getLines.mkString
+      val fileContents: String = Source.fromResource("bookstore.html").getLines.mkString
       complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, fileContents))
     }
   }
