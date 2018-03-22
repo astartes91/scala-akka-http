@@ -14,6 +14,6 @@ object Init {
     implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
     println(s"Server online at http://localhost:8080/")
-    Http().bindAndHandle(BookStore.rootRoute, "127.0.0.1", 8080)
+    Http().bindAndHandle(BookStore.route, "127.0.0.1", 8080)
   }
 }
