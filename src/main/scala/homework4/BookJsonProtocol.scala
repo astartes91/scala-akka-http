@@ -1,6 +1,6 @@
 package homework4
 
-import scala.reflect.runtime.universe._
+//import scala.reflect.runtime.universe._
 
 object BookJsonProtocol extends JsonProtocol {
 
@@ -23,7 +23,7 @@ object BookJsonProtocol extends JsonProtocol {
       case b: Boolean => booleanSerializer.serialize(b)
       case seq: Seq[S] => ss.serialize(seq)
       case o: Option[T] => os.serialize(o)
-      case obj: Object => {
+      /*case obj: Object => {
         val mirror: Mirror = scala.reflect.runtime.currentMirror
         val instanceMirror: InstanceMirror = mirror.reflect(obj)
 
@@ -44,7 +44,7 @@ object BookJsonProtocol extends JsonProtocol {
           )
           .toMap
         JsObject(map)
-      }
+      }*/
       case _ => JsNull
     }
 }
