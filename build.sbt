@@ -9,7 +9,7 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.3.0"
 
   // json
-  , "io.spray" %%  "spray-json" % "1.3.3"
+  //, "io.spray" %%  "spray-json" % "1.3.3"
 
   // logging
   , "org.slf4j" % "slf4j-api" % "1.7.12"
@@ -23,6 +23,8 @@ libraryDependencies ++= Seq(
   // akka
   , "com.typesafe.akka" %% "akka-http" % "10.0.9"
   , "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
+
+  ,"com.lihaoyi" %% "scalatags" % "0.6.2"
 
   // testing
   , "org.scalatest" %% "scalatest" % "3.0.4" % "test"
