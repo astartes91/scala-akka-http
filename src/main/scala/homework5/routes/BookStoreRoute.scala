@@ -23,13 +23,13 @@ class BookStoreRoute() {
     }
   }
 
-  private def getScriptRoute: Route = {
-    pathPrefix("script"){
+  private def getResRoute: Route = {
+    pathPrefix("res"){
       get {
-        getFromResourceDirectory("script")
+        getFromResourceDirectory("res")
       }
     }
   }
 
-  def route: Route = rootRoute ~ getScriptRoute ~ bookstoreRoute
+  def route: Route = rootRoute ~ getResRoute ~ bookstoreRoute
 }
