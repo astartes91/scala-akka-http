@@ -17,6 +17,10 @@ class AuthorsRoute() {
             HttpEntity(ContentTypes.`text/html(UTF-8)`, authorsView.getAuthorsView(page, size))
           }
         }
+      } ~ post {
+        parameters("code".as[String], "name".as[String]){ (code, name) =>
+          complete(code)
+        }
       }
     } ~ authorRoute
   }
