@@ -4,10 +4,16 @@ import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import homework5.views.AuthorsView
+import homework5.{Author, AuthorCode, AuthorsStorage}
 
 class AuthorsRoute() {
 
-  private val authorsView: AuthorsView = new AuthorsView()
+  private val authorsStorage: AuthorsStorage = new AuthorsStorage
+  private val levCode = AuthorCode("tolstoy")
+  private val lev = Author(levCode, "Лев Николаевич толстой")
+  authorsStorage.put(lev.code, lev)
+
+  private val authorsView: AuthorsView = new AuthorsView(authorsStorage)
 
   private def authorsListRoute: Route = pathPrefix("authors"){
     pathEndOrSingleSlash{
@@ -19,7 +25,10 @@ class AuthorsRoute() {
         }
       } ~ post {
         parameters("code".as[String], "name".as[String]){ (code, name) =>
-          complete(code)
+          val authorCode: AuthorCode = AuthorCode(code)
+          val author = Author(authorCode, name)
+          authorsStorage.put(authorCode, author)
+          complete("")
         }
       }
     } ~ authorRoute

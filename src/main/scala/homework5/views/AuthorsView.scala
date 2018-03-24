@@ -1,6 +1,6 @@
 package homework5.views
 
-import homework5.{Author, AuthorCode, AuthorsStorage}
+import homework5.{Author, AuthorsStorage}
 import scalatags.Text.TypedTag
 import scalatags.Text.all._
 import scalatags.Text.tags2.title
@@ -8,12 +8,7 @@ import scalatags.Text.tags2.title
 /**
   * @author Vladimir Nizamutdinov (astartes91@gmail.com)
   */
-class AuthorsView() {
-
-  private val authorsStorage: AuthorsStorage = new AuthorsStorage()
-  private val levCode = AuthorCode("tolstoy")
-  private val lev = Author(levCode, "Лев Николаевич толстой")
-  authorsStorage.put(lev.code, lev)
+class AuthorsView(authorsStorage: AuthorsStorage) {
 
   def getAuthorsView(page: Int, size: Int): String =
     html(

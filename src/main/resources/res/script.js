@@ -8,7 +8,7 @@ $(document).ready(
                     "/bookstore/authors?code=" + code + "&name=" + name,
                     function (data) {
                         alert("Author created!")
-                        window.location = "/bookstore/authors/" + data
+                        window.location = "/bookstore/authors"
                     }
                 )
             }
