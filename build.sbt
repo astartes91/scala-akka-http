@@ -1,4 +1,4 @@
-name := "lectures"
+name := "ScalaHomeWork"
 organization := "ru.tinkoff.fintech"
 version := "0.0.1"
 

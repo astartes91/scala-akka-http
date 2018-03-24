@@ -4,14 +4,17 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 
-object BookStoreRoute {
+class BookStoreRoute() {
+
+  val authorsRoute: AuthorsRoute = new AuthorsRoute()
+  val booksRoute: BooksRoute = new BooksRoute()
 
   private def bookstoreRoute: Route = pathPrefix("bookstore"){
     pathEndOrSingleSlash {
       get {
         getFromResource("bookstore.html")
       }
-    } ~ AuthorsRoute.route ~ BooksRoute.route
+    } ~ authorsRoute.route ~ booksRoute.route
   }
 
   private def rootRoute: Route = pathSingleSlash {
