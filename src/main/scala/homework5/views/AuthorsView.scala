@@ -42,7 +42,7 @@ class AuthorsView(authorsStorage: AuthorsStorage) {
   private def getAuthorsList(page: Int, size: Int): TypedTag[String] = {
 
     val res: Seq[Author] = authorsStorage.list.drop((page - 1) * size).take(size)
-    val seq: Seq[TypedTag[String]] =
+    val rows: Seq[TypedTag[String]] =
       res.map(
         author => {
           val code: String = author.code.value
@@ -51,7 +51,7 @@ class AuthorsView(authorsStorage: AuthorsStorage) {
         }
       )
 
-    div(hr, table(tbody(tr(th("Author Code"), th("Author name")), seq)))
+    div(hr, table(tbody(tr(th("Author Code"), th("Author name")), rows)))
   }
 
   private def getPaginationBlock(size: Int): TypedTag[String] = {

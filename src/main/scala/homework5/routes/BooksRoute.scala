@@ -16,6 +16,16 @@ class BooksRoute(booksView: BooksView) {
           }
         }
       }
+    } ~ bookRoute
+  }
+
+  private def bookRoute: Route = pathPrefix(Segment){ bookCode =>
+    pathEndOrSingleSlash{
+      get{
+        complete{
+          HttpEntity(ContentTypes.`text/html(UTF-8)`, booksView.getBookView(bookCode))
+        }
+      }
     }
   }
 

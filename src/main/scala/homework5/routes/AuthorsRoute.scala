@@ -6,12 +6,7 @@ import akka.http.scaladsl.server.Route
 import homework5.views.{AuthorsView, BooksView}
 import homework5.{Author, AuthorCode, AuthorsStorage}
 
-class AuthorsRoute(booksView: BooksView) {
-
-  private val authorsStorage: AuthorsStorage = new AuthorsStorage
-  private val levCode = AuthorCode("tolstoy")
-  private val lev = Author(levCode, "Лев Николаевич толстой")
-  authorsStorage.put(lev.code, lev)
+class AuthorsRoute(authorsStorage: AuthorsStorage, booksView: BooksView) {
 
   private val authorsView: AuthorsView = new AuthorsView(authorsStorage)
 
@@ -50,7 +45,10 @@ class AuthorsRoute(booksView: BooksView) {
     path("books") {
       pathEndOrSingleSlash {
         get {
-          complete("Author's books")
+          val author: Author = authorsStorage.list.find(author => author.code.value.equals(code)).get
+          complete{
+            HttpEntity(ContentTypes.`text/html(UTF-8)`, booksView.getAuthorBooks(author))
+          }
         }
       }
     }
