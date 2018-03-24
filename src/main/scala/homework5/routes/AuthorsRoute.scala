@@ -23,15 +23,17 @@ class AuthorsRoute() {
             HttpEntity(ContentTypes.`text/html(UTF-8)`, authorsView.getAuthorsView(page, size))
           }
         }
-      } ~ post {
-        parameters("code".as[String], "name".as[String]){ (code, name) =>
-          val authorCode: AuthorCode = AuthorCode(code)
-          val author = Author(authorCode, name)
-          authorsStorage.put(authorCode, author)
-          complete("")
-        }
-      }
+      } ~ createAuthorRoute
     } ~ authorRoute
+  }
+
+  private def createAuthorRoute: Route = post {
+    parameters("code".as[String], "name".as[String]){ (code, name) =>
+      val authorCode: AuthorCode = AuthorCode(code)
+      val author = Author(authorCode, name)
+      authorsStorage.put(authorCode, author)
+      complete("")
+    }
   }
 
   private def authorRoute: Route = path(Segment){ id =>
