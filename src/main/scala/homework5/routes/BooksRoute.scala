@@ -10,7 +10,7 @@ object BooksRoute {
   private def booksListRoute: Route = pathPrefix("books"){
     pathEndOrSingleSlash{
       get{
-        parameters("page".as[Option[Int]] ? 1){ (page) =>
+        parameters("page".as[Int] ? 1, "size".as[Int] ? 10){ (page, size) =>
           complete {
             HttpEntity(ContentTypes.`text/html(UTF-8)`, html(body(h2("Books"))).toString())
           }
