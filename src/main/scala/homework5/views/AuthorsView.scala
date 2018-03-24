@@ -11,11 +11,9 @@ import scalatags.Text.tags2.title
 class AuthorsView() {
 
   private val authorsStorage: AuthorsStorage = new AuthorsStorage()
-  val levCode = AuthorCode("tolstoy")
-  val lev = Author(levCode, "Лев Николаевич толстой")
+  private val levCode = AuthorCode("tolstoy")
+  private val lev = Author(levCode, "Лев Николаевич толстой")
   authorsStorage.put(lev.code, lev)
-  private val hooi: AuthorCode = AuthorCode("hooi")
-  authorsStorage.put(hooi, Author(hooi, "Хуй Простой"))
 
   def getAuthorsView(page: Int, size: Int): String =
     html(
@@ -29,11 +27,11 @@ class AuthorsView() {
         h1("Authors"),
         getAuthorCreationForm,
         getAuthorsList(page, size),
-        hr
+        getPaginationBlock(size)
       )
     ).toString()
 
-  def getAuthorCreationForm: TypedTag[String] =
+  private def getAuthorCreationForm: TypedTag[String] =
     div(
       hr,
       h2("Create new author"),
@@ -46,7 +44,7 @@ class AuthorsView() {
       input(`type`:= "submit", id := "createAuthorButton", value := "Create")
     )
 
-  def getAuthorsList(page: Int, size: Int): TypedTag[String] = {
+  private def getAuthorsList(page: Int, size: Int): TypedTag[String] = {
 
     val res: Seq[Author] = authorsStorage.list.drop((page - 1) * size).take(size)
     val seq: Seq[TypedTag[String]] =
@@ -58,8 +56,15 @@ class AuthorsView() {
         }
       )
 
-    div(hr, table(tbody(tr(th("Author Code"), th("Author name")), seq))
-    )
+    div(hr, table(tbody(tr(th("Author Code"), th("Author name")), seq)))
+  }
+
+  private def getPaginationBlock(size: Int): TypedTag[String] = {
+    val pageCount: Int = math.ceil(authorsStorage.list.size * 1.0 / size).toInt
+    val list: Seq[TypedTag[String]] =
+      List.range(1, pageCount + 1).map(page => a(href := s"authors?page=$page", page))
+
+    div(hr, list)
   }
 
   def getAuthorView(id: String): String = {

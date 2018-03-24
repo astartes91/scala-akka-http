@@ -9,9 +9,10 @@ import scalatags.Text.all._
 class BooksView {
 
   private val booksStorage: BooksStorage = new BooksStorage()
-  val warCode = BookCode("voina_i_mir")
-  val levCode = AuthorCode("tolstoy")
-  val warAndPeace = Book(warCode, "Война и мир", levCode, 1867, Genres.novel, 10)
+  private val warCode = BookCode("voina_i_mir")
+  private val levCode = AuthorCode("tolstoy")
+  private val warAndPeace = Book(warCode, "Война и мир", levCode, 1867, Genres.novel, 10)
+  booksStorage.put(warCode, warAndPeace)
 
   def getBooksView(page: Int, size: Int): String = {
     html(body(h2("Books"))).toString()
