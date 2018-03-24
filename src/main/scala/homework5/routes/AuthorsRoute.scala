@@ -3,10 +3,10 @@ package homework5.routes
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import homework5.views.AuthorsView
+import homework5.views.{AuthorsView, BooksView}
 import homework5.{Author, AuthorCode, AuthorsStorage}
 
-class AuthorsRoute() {
+class AuthorsRoute(booksView: BooksView) {
 
   private val authorsStorage: AuthorsStorage = new AuthorsStorage
   private val levCode = AuthorCode("tolstoy")
@@ -36,10 +36,22 @@ class AuthorsRoute() {
     }
   }
 
-  private def authorRoute: Route = path(Segment){ id =>
-    get{
-      complete{
-        HttpEntity(ContentTypes.`text/html(UTF-8)`, authorsView.getAuthorView(id))
+  private def authorRoute: Route = pathPrefix(Segment){ code =>
+    pathEndOrSingleSlash{
+      get{
+        complete{
+          HttpEntity(ContentTypes.`text/html(UTF-8)`, authorsView.getAuthorView(code))
+        }
+      }
+    } ~ authorBooksRoute(code)
+  }
+
+  private def authorBooksRoute(code: String): Route = {
+    path("books") {
+      pathEndOrSingleSlash {
+        get {
+          complete("Author's books")
+        }
       }
     }
   }
