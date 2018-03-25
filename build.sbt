@@ -22,13 +22,13 @@ libraryDependencies ++= Seq(
 
   // akka
   , "com.typesafe.akka" %% "akka-http" % "10.0.9"
-  , "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
+  //, "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
 
   ,"com.lihaoyi" %% "scalatags" % "0.6.2"
 
   // testing
-  , "org.scalatest" %% "scalatest" % "3.0.4" % "test"
-  , "org.mockito" % "mockito-core" % "1.9.5" % "test"
+  //, "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+  //, "org.mockito" % "mockito-core" % "1.9.5" % "test"
 )
 
 assemblyMergeStrategy in assembly := {

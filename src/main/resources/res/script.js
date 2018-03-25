@@ -39,5 +39,29 @@ $(document).ready(
                 )
             }
         )
+        $("#filterBooks").click(
+            function () {
+                const minRating = $("#minRating").val();
+                const maxRating = $("#maxRating").val();
+                if(minRating || maxRating){
+                    var url = "/bookstore/books?" +
+                        (minRating ? ("minRating=" + minRating) : "") +
+                        (minRating && maxRating ? "&" : "") +
+                        (maxRating ? "maxRating=" + maxRating : "");
+                    $.get(
+                        url,
+                        function (data) {
+                            $("#booksTable > tbody > tr:not(first-child)").slice(1).remove()
+                            $("#booksTable > tbody > tr:first-child").after(data)
+                        }
+                    )
+                }
+            }
+        )
+        $("#clearFilter").click(
+            function () {
+                window.location = "/bookstore/books"
+            }
+        )
     }
 )

@@ -18,8 +18,31 @@ class BooksView(booksStorage: BooksStorage, authorsStorage: AuthorsStorage) {
         script(src := "/res/script.js"),
         link(rel := "stylesheet", href := "/res/style.css")
       ),
-      body(h1("Books"), getBookCreationForm, getBooksList(page, size), getPaginationBlock(size))
+      body(h1("Books"), getBookCreationForm, getBookSearchForm, getBooksList(page, size), getPaginationBlock(size))
     ).toString()
+  }
+
+  def getFilteredBooks(minRating: Option[Int], maxRating: Option[Int]): String = {
+    booksStorage
+      .list
+      .filter(
+        book =>
+          if(minRating.nonEmpty) {
+            book.rating >= minRating.get
+          } else {
+            true
+          }
+      )
+      .filter(
+        book =>
+          if(maxRating.nonEmpty) {
+            book.rating <= maxRating.get
+          } else {
+            true
+          }
+      )
+      .map(bookToTr)
+      .mkString
   }
 
   private def getBookCreationForm: TypedTag[String] = {
@@ -56,6 +79,22 @@ class BooksView(booksStorage: BooksStorage, authorsStorage: AuthorsStorage) {
       "Rating",
       br,
       input(`type`:= "submit", id := "createBookButton", value := "Create")
+    )
+  }
+
+  private def getBookSearchForm: TypedTag[String] = {
+    div(
+      hr,
+      h2("Filter books by rating"),
+      input(`type`:= "number", id := "minRating"),
+      "Min rating",
+      br,
+      input(`type`:= "number", id := "maxRating"),
+      "Max rating",
+      br,
+      input(`type`:= "submit", id := "filterBooks", value := "Filter"),
+      br,
+      input(`type`:= "submit", id := "clearFilter", value := "Clear")
     )
   }
 
@@ -103,5 +142,8 @@ class BooksView(booksStorage: BooksStorage, authorsStorage: AuthorsStorage) {
   }
 
   private def getBooksTable(rows: Seq[TypedTag[String]]) =
-    table(tbody(tr(th("Book Code"), th("Book title"), th("Author name"), th("Year"), th("Genre"), th("Rating")), rows))
+    table(
+      id := "booksTable",
+      tbody(tr(th("Book Code"), th("Book title"), th("Author name"), th("Year"), th("Genre"), th("Rating")), rows)
+    )
 }
