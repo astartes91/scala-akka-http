@@ -6,17 +6,7 @@ import akka.http.scaladsl.server.Route
 import homework5._
 import homework5.views.BooksView
 
-class BookStoreRoute() {
-
-  private val authorsStorage: AuthorsStorage = new AuthorsStorage
-  private val levCode = AuthorCode("tolstoy")
-  private val lev = Author(levCode, "Лев Николаевич толстой")
-  authorsStorage.put(lev.code, lev)
-
-  private val booksStorage: BooksStorage = new BooksStorage()
-  private val warCode = BookCode("voina_i_mir")
-  private val warAndPeace = Book(warCode, "Война и мир", levCode, 1867, Genres.novel, 10)
-  booksStorage.put(warCode, warAndPeace)
+class BookStoreRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage) {
 
   private val booksView: BooksView = new BooksView(booksStorage, authorsStorage)
 

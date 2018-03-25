@@ -18,12 +18,7 @@ class AuthorsView(authorsStorage: AuthorsStorage) {
         script(src := "/res/script.js"),
         link(rel := "stylesheet", href := "/res/style.css")
       ),
-      body(
-        h1("Authors"),
-        getAuthorCreationForm,
-        getAuthorsList(page, size),
-        getPaginationBlock(size)
-      )
+      body(h1("Authors"), getAuthorCreationForm, getAuthorsList(page, size), getPaginationBlock(size))
     ).toString()
 
   private def getAuthorCreationForm: TypedTag[String] =

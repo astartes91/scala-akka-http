@@ -1,6 +1,6 @@
 package homework5.views
 
-import homework5._
+import homework5.{Genres, _}
 import scalatags.Text.TypedTag
 import scalatags.Text.all._
 import scalatags.Text.tags2.title
@@ -11,7 +11,66 @@ import scalatags.Text.tags2.title
 class BooksView(booksStorage: BooksStorage, authorsStorage: AuthorsStorage) {
 
   def getBooksView(page: Int, size: Int): String = {
-    html(body(h2("Books"))).toString()
+    html(
+      head(
+        title("Books"),
+        script(src := "/res/jquery-3.3.1.js"),
+        script(src := "/res/script.js"),
+        link(rel := "stylesheet", href := "/res/style.css")
+      ),
+      body(h1("Books"), getBookCreationForm, getBooksList(page, size), getPaginationBlock(size))
+    ).toString()
+  }
+
+  private def getBookCreationForm: TypedTag[String] = {
+
+    val authorOptions: Seq[TypedTag[String]] =
+      authorsStorage.list.map(author => option(value := author.code.value, author.name))
+
+    val genreOptions: Seq[TypedTag[String]] = Genres.values.map(
+      genre => {
+        val genreString: String = genre.toString
+        option(value := genreString, genreString)
+      }
+    ).toSeq
+
+    div(
+      hr,
+      h2("Create new book"),
+      input(`type`:= "text", id := "bookCode"),
+      "Book code",
+      br,
+      input(`type`:= "text", id := "bookTitle"),
+      "Book title",
+      br,
+      select(id := "bookAuthor", authorOptions),
+      "Author",
+      br,
+      input(`type`:= "number", id := "bookYear"),
+      "Year",
+      br,
+      select(id := "bookGenre", genreOptions),
+      "Genre",
+      br,
+      input(`type`:= "number", id := "bookRating"),
+      "Rating",
+      br,
+      input(`type`:= "submit", id := "createBookButton", value := "Create")
+    )
+  }
+
+  private def getBooksList(page: Int, size: Int): TypedTag[String] = {
+
+    val rows: Seq[TypedTag[String]] = booksStorage.list.drop((page - 1) * size).take(size).map(bookToTr)
+    div(hr, getBooksTable(rows))
+  }
+
+  private def getPaginationBlock(size: Int): TypedTag[String] = {
+    val pageCount: Int = math.ceil(booksStorage.list.size * 1.0 / size).toInt
+    val list: Seq[TypedTag[String]] =
+      List.range(1, pageCount + 1).map(page => a(href := s"/bookstore/books?page=$page", page))
+
+    div(hr, list)
   }
 
   def getAuthorBooks(author: Author): String = {
