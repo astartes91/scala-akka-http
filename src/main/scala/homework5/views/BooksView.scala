@@ -126,7 +126,29 @@ class BooksView(booksStorage: BooksStorage, authorsStorage: AuthorsStorage) {
     ).toString()
   }
 
-  def getBookView(bookCode: String): String = html(body(h1("Book"))).toString()
+  def getBookView(bookCode: String): String = {
+    val book: Book = booksStorage.list.find(book => book.code.value.equals(bookCode)).get
+    val author: Author = authorsStorage.list.find(author => author.code.value.equals(book.authorCode.value)).get
+
+    html(
+      head(title("Book")),
+      body(
+        a(href := "/bookstore/books", "Overall books list"),
+        hr,
+        h1("Book"),
+        s"Code: $bookCode",
+        br,
+        s"Title: ${book.title}",
+        br,
+        div("Author: ", a(href := s"/bookstore/authors/${author.code.value}", author.name)),
+        s"Year: ${book.year}",
+        br,
+        s"Genre: ${book.genre.toString}",
+        br,
+        s"Rating: ${book.rating}"
+      )
+    ).toString()
+  }
 
   private def bookToTr(book: Book): TypedTag[String] = {
     val author: Author = authorsStorage.list.find(author => author.code.value.equals(book.authorCode.value)).get
