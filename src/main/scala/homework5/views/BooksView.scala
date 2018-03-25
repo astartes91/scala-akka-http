@@ -1,6 +1,6 @@
 package homework5.views
 
-import homework5.{Genres, _}
+import homework5._
 import scalatags.Text.TypedTag
 import scalatags.Text.all._
 import scalatags.Text.tags2.title

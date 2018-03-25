@@ -11,7 +11,7 @@ class BookStoreRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage)
   private val booksView: BooksView = new BooksView(booksStorage, authorsStorage)
 
   private val authorsRoute: AuthorsRoute = new AuthorsRoute(authorsStorage, booksView)
-  private val booksRoute: BooksRoute = new BooksRoute(booksView)
+  private val booksRoute: BooksRoute = new BooksRoute(booksStorage, booksView)
 
   private def bookstoreRoute: Route = pathPrefix("bookstore"){
     pathEndOrSingleSlash {

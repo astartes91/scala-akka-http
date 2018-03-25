@@ -3,9 +3,11 @@ package homework5.routes
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.directives.ParameterDirectives.parameters
+import homework5._
 import homework5.views.BooksView
 
-class BooksRoute(booksView: BooksView) {
+class BooksRoute(booksStorage: BooksStorage, booksView: BooksView) {
 
   private def booksListRoute: Route = pathPrefix("books"){
     pathEndOrSingleSlash{
@@ -15,8 +17,25 @@ class BooksRoute(booksView: BooksView) {
             HttpEntity(ContentTypes.`text/html(UTF-8)`, booksView.getBooksView(page, size))
           }
         }
-      }
+      } ~ createBookRoute
     } ~ bookRoute
+  }
+
+  private def createBookRoute: Route = post {
+    parameters(
+      "code".as[String],
+      "title".as[String],
+      "authorCode".as[String],
+      "year".as[Int],
+      "genre".as[String],
+      "rating".as[Int]
+    ) { (code, title, authorCode, year, genre, rating) =>
+      val genreValue: Genres.Value = Genres.withName(genre)
+      val bookCode: BookCode = BookCode(code)
+      val book: Book = Book(bookCode, title, AuthorCode(authorCode), year, genreValue, rating)
+      booksStorage.put(bookCode, book)
+      complete("")
+    }
   }
 
   private def bookRoute: Route = pathPrefix(Segment){ bookCode =>
