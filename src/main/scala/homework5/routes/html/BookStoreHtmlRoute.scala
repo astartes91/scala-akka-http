@@ -1,4 +1,4 @@
-package homework5.routes
+package homework5.routes.html
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
@@ -6,12 +6,12 @@ import akka.http.scaladsl.server.Route
 import homework5._
 import homework5.views.BooksView
 
-class BookStoreRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage) {
+class BookStoreHtmlRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage) {
 
   private val booksView: BooksView = new BooksView(booksStorage, authorsStorage)
 
-  private val authorsRoute: AuthorsRoute = new AuthorsRoute(authorsStorage, booksView)
-  private val booksRoute: BooksRoute = new BooksRoute(booksStorage, booksView)
+  private val authorsRoute: AuthorsHtmlRoute = new AuthorsHtmlRoute(authorsStorage, booksView)
+  private val booksRoute: BooksHtmlRoute = new BooksHtmlRoute(booksStorage, booksView)
 
   private def bookstoreRoute: Route = pathPrefix("bookstore"){
     pathEndOrSingleSlash {

@@ -1,4 +1,4 @@
-package homework5.routes
+package homework5.routes.html
 
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity}
 import akka.http.scaladsl.server.Directives._
@@ -6,7 +6,7 @@ import akka.http.scaladsl.server.Route
 import homework5._
 import homework5.views.BooksView
 
-class BooksRoute(booksStorage: BooksStorage, booksView: BooksView) {
+class BooksHtmlRoute(booksStorage: BooksStorage, booksView: BooksView) {
 
   private def booksListRoute: Route = pathPrefix("books"){
     pathEndOrSingleSlash{

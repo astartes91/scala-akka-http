@@ -21,8 +21,8 @@ libraryDependencies ++= Seq(
   //,  "org.xerial" % "sqlite-jdbc" % "3.20.1"
 
   // akka
-  , "com.typesafe.akka" %% "akka-http" % "10.0.9"
-  //, "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
+  , "com.typesafe.akka" %% "akka-http" % "10.0.10"
+  , "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
 
   ,"com.lihaoyi" %% "scalatags" % "0.6.2"
 
