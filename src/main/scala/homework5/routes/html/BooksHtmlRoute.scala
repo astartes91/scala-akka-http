@@ -26,20 +26,14 @@ class BooksHtmlRoute(booksStorage: BooksStorage, booksView: BooksView) {
   }
 
   private def createBookRoute: Route = post {
-    parameters(
-      "code".as[String],
-      "title".as[String],
-      "authorCode".as[String],
-      "year".as[Int],
-      "genre".as[String],
-      "rating".as[Int]
-    ) { (code, title, authorCode, year, genre, rating) =>
-      val genreValue: Genres.Value = Genres.withName(genre)
-      val bookCode: BookCode = BookCode(code)
-      val book: Book = Book(bookCode, title, AuthorCode(authorCode), year, genreValue, rating)
-      booksStorage.put(bookCode, book)
-      complete("")
-    }
+    parameters("code", "title", "authorCode", "year".as[Int], "genre", "rating".as[Int]) {
+      (code, title, authorCode, year, genre, rating) =>
+        val genreValue: Genres.Value = Genres.withName(genre)
+        val bookCode: BookCode = BookCode(code)
+        val book: Book = Book(bookCode, title, AuthorCode(authorCode), year, genreValue, rating)
+        booksStorage.put(bookCode, book)
+        complete("")
+      }
   }
 
   private def bookRoute: Route = pathPrefix(Segment){ bookCode =>

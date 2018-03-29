@@ -23,7 +23,7 @@ class AuthorsHtmlRoute(authorsStorage: AuthorsStorage, booksView: BooksView) {
   }
 
   private def createAuthorRoute: Route = post {
-    parameters("code".as[String], "name".as[String]){ (code, name) =>
+    parameters("code", "name"){ (code, name) =>
       val authorCode: AuthorCode = AuthorCode(code)
       val author = Author(authorCode, name)
       authorsStorage.put(authorCode, author)

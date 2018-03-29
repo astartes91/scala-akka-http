@@ -29,7 +29,7 @@ object Init {
     val bookStoreHtmlRoute: BookStoreHtmlRoute = new BookStoreHtmlRoute(authorsStorage, booksStorage)
 
     val authorsApiRoute: AuthorsApiRoute = new AuthorsApiRoute(authorsStorage, booksStorage)
-    val booksApiRoute: BooksApiRoute = new BooksApiRoute()
+    val booksApiRoute: BooksApiRoute = new BooksApiRoute(booksStorage)
     val apiRouter: ApiRouter = new ApiRouter(authorsApiRoute, booksApiRoute)
 
     Http().bindAndHandle(new MainRouter(bookStoreHtmlRoute, apiRouter).route, "127.0.0.1", 8080)

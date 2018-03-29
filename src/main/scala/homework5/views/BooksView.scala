@@ -25,22 +25,8 @@ class BooksView(booksStorage: BooksStorage, authorsStorage: AuthorsStorage) {
   def getFilteredBooks(minRating: Option[Int], maxRating: Option[Int]): String = {
     booksStorage
       .list
-      .filter(
-        book =>
-          if(minRating.nonEmpty) {
-            book.rating >= minRating.get
-          } else {
-            true
-          }
-      )
-      .filter(
-        book =>
-          if(maxRating.nonEmpty) {
-            book.rating <= maxRating.get
-          } else {
-            true
-          }
-      )
+      .filter(book => minRating.isEmpty || (book.rating >= minRating.get))
+      .filter(book => maxRating.isEmpty || (book.rating <= maxRating.get))
       .map(bookToTr)
       .mkString
   }
