@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
 import homework5.routes._
+import homework5.routes.api.{ApiRouter, AuthorsApiRoute, BooksApiRoute}
 import homework5.routes.html.BookStoreHtmlRoute
 
 import scala.concurrent.ExecutionContextExecutor
@@ -25,8 +26,13 @@ object Init {
     val warAndPeace = Book(warCode, "Война и мир", levCode, 1867, Genres.novel, 10)
     booksStorage.put(warCode, warAndPeace)
 
-    println(s"Server online at http://localhost:8080/")
     val bookStoreHtmlRoute: BookStoreHtmlRoute = new BookStoreHtmlRoute(authorsStorage, booksStorage)
-    Http().bindAndHandle(new MainRouter(bookStoreHtmlRoute).route, "127.0.0.1", 8080)
+
+    val authorsApiRoute: AuthorsApiRoute = new AuthorsApiRoute(authorsStorage)
+    val booksApiRoute: BooksApiRoute = new BooksApiRoute()
+    val apiRouter: ApiRouter = new ApiRouter(authorsApiRoute, booksApiRoute)
+
+    Http().bindAndHandle(new MainRouter(bookStoreHtmlRoute, apiRouter).route, "127.0.0.1", 8080)
+    println(s"Server online at http://localhost:8080/")
   }
 }
