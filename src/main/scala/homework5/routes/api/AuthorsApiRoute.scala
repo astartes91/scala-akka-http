@@ -2,9 +2,9 @@ package homework5.routes.api
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import homework5.{Author, AuthorsStorage}
+import homework5._
 
-class AuthorsApiRoute(authorsStorage: AuthorsStorage) extends JsonSupport {
+class AuthorsApiRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage) extends JsonSupport {
 
   private def authorsListRoute: Route =
     pathPrefix("authors"){
@@ -14,9 +14,48 @@ class AuthorsApiRoute(authorsStorage: AuthorsStorage) extends JsonSupport {
             val res: Seq[Author] = authorsStorage.list.drop((page - 1) * size).take(size)
             complete(res)
           }
+        } ~ createAuthorRoute
+      } ~ authorRoute
+    }
+
+  private def authorRoute: Route = pathPrefix(Segment){ code =>
+    pathEndOrSingleSlash{
+      get{
+        val author = authorsStorage.list.find(author => author.code.value.equals(code))
+        if(author.nonEmpty){
+          complete(author)
+        } else {
+          complete("")
+        }
+      }
+    } ~ authorBooksRoute(code)
+  }
+
+  private def createAuthorRoute: Route = post {
+    entity(as[Author]){ (author) =>
+      authorsStorage.put(author.code, author)
+      complete("")
+    }
+  }
+
+  private def authorBooksRoute(code: String): Route = {
+    path("books") {
+      pathEndOrSingleSlash {
+        get {
+          val author = authorsStorage.list.find(author => author.code.value.equals(code))
+          if(author.nonEmpty){
+
+            val booksList: Seq[Book] =
+              booksStorage.list.filter(book => book.authorCode.value.equals(author.get.code.value))
+
+            complete(booksList)
+          } else {
+            complete("")
+          }
         }
       }
     }
+  }
 
   def route: Route = authorsListRoute
 }

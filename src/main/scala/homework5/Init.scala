@@ -28,7 +28,7 @@ object Init {
 
     val bookStoreHtmlRoute: BookStoreHtmlRoute = new BookStoreHtmlRoute(authorsStorage, booksStorage)
 
-    val authorsApiRoute: AuthorsApiRoute = new AuthorsApiRoute(authorsStorage)
+    val authorsApiRoute: AuthorsApiRoute = new AuthorsApiRoute(authorsStorage, booksStorage)
     val booksApiRoute: BooksApiRoute = new BooksApiRoute()
     val apiRouter: ApiRouter = new ApiRouter(authorsApiRoute, booksApiRoute)
 
