@@ -1,9 +1,9 @@
-package homework5.routes
+package akkahttp.routes
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import homework5.routes.api.ApiRouter
-import homework5.routes.html.BookStoreHtmlRoute
+import akkahttp.routes.api.ApiRouter
+import akkahttp.routes.html.BookStoreHtmlRoute
 
 class MainRouter(bookStoreHtmlRoute: BookStoreHtmlRoute, apiRouter: ApiRouter) {
 

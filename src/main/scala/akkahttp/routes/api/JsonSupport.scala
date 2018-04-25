@@ -1,7 +1,7 @@
-package homework5.routes.api
+package akkahttp.routes.api
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
-import homework5._
+import akkahttp._
 import spray.json.{DefaultJsonProtocol, DeserializationException, JsString, JsValue, JsonFormat}
 
 // collect your json format instances into a support trait:

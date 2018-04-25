@@ -1,4 +1,4 @@
-package homework5.routes.api
+package akkahttp.routes.api
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route

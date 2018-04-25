@@ -1,11 +1,11 @@
-package homework5
+package akkahttp
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.stream.ActorMaterializer
-import homework5.routes._
-import homework5.routes.api.{ApiRouter, AuthorsApiRoute, BooksApiRoute}
-import homework5.routes.html.BookStoreHtmlRoute
+import akkahttp.routes._
+import akkahttp.routes.api.{ApiRouter, AuthorsApiRoute, BooksApiRoute}
+import akkahttp.routes.html.BookStoreHtmlRoute
 
 import scala.concurrent.ExecutionContextExecutor
 

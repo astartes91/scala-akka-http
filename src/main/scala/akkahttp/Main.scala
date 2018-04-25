@@ -1,4 +1,4 @@
-package homework5
+package akkahttp
 
 object Main extends App {
 

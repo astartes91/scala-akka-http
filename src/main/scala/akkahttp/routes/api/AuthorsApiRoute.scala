@@ -1,8 +1,8 @@
-package homework5.routes.api
+package akkahttp.routes.api
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import homework5._
+import akkahttp._
 
 class AuthorsApiRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage) extends JsonSupport {
 

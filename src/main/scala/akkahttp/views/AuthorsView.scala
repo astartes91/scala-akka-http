@@ -1,6 +1,6 @@
-package homework5.views
+package akkahttp.views
 
-import homework5.{Author, AuthorsStorage}
+import akkahttp.{Author, AuthorsStorage}
 import scalatags.Text.TypedTag
 import scalatags.Text.all._
 import scalatags.Text.tags2.title

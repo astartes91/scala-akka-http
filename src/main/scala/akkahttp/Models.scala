@@ -1,4 +1,4 @@
-package homework5
+package akkahttp
 
 object Genres extends Enumeration {
   val novel: Genres.Value = Value("novel")

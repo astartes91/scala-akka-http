@@ -1,4 +1,4 @@
-package homework5
+package akkahttp
 
 class Storage[K, V] {
   protected val data = collection.mutable.HashMap.empty[K, V]

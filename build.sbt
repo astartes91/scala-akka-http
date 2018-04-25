@@ -1,4 +1,4 @@
-name := "ScalaHomeWork"
+name := "ScalaAkkaHttp"
 organization := "org.bibliarij"
 version := "0.0.1"
 

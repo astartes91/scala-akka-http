@@ -1,10 +1,10 @@
-package homework5.routes.html
+package akkahttp.routes.html
 
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import homework5._
-import homework5.views.BooksView
+import akkahttp._
+import akkahttp.views.BooksView
 
 class BookStoreHtmlRoute(authorsStorage: AuthorsStorage, booksStorage: BooksStorage) {
 
